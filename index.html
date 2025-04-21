@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rodrigo Alves Ferreira | Desenvolvedor Web3</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    .logo-grid img {
+      filter: grayscale(100%) brightness(1.1);
+      max-height: 80px;
+      max-width: 160px;
+      object-fit: contain;
+      opacity: 0.85;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .logo-grid img:hover {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    .accordion-content { display: none; }
+    .accordion.open .accordion-content { display: block; }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sidebar-transition {
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-[#cbd5e1] font-sans tracking-wide relative">
+
+<!-- Overlay -->
+<div id="overlay" onclick="closeAllOverlays()" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 hidden"></div>
+
+<!-- Botão Lateral Projeto -->
+<button id="form-btn"
+  onclick="toggleFormDrawer()"
+  class="fixed top-1/2 left-0 transform -translate-y-1/2 bg-green-600 text-white px-3 py-3 rounded-r-xl shadow-lg hover:bg-green-500 transition z-50 flex flex-col items-center gap-1 text-sm"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M8 10h.01M12 10h.01M16 10h.01M21 16.5a2.5 2.5 0 00-2.5-2.5H5.5A2.5 2.5 0 003 16.5V17a1 1 0 001 1h16a1 1 0 001-1v-.5z" />
+  </svg>
+  <span>Projeto</span>
+</button>
+
+<!-- Botão Lateral Social -->
+<button id="social-btn"
+  onclick="toggleSidebar()"
+  class="fixed top-1/2 right-0 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-3 rounded-l-xl shadow-lg hover:bg-blue-500 transition z-50 flex flex-col items-center gap-1 text-sm"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM2 20h20" />
+  </svg>
+  <span>Social</span>
+</button>
+
+<!-- Cabeçalho -->
+<header class="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-800 py-12 text-center shadow-lg">
+
+  <!-- Foto de perfil -->
+  <div class="flex justify-center mb-6">
+    <img src="img/perfil.jpg" alt="Rodrigo Alves Ferreira" class="w-32 h-32 rounded-full border-4 border-white shadow-md object-cover" />
+  </div>
+
+  <h1 class="text-4xl font-bold text-white">Rodrigo Alves Ferreira</h1>
+  <p class="text-blue-300 text-lg mt-2">
+    <span id="typed"></span>
+  </p>
+
+  <!-- Botões de idioma -->
+  <div class="flex justify-center gap-3 mt-6">
+    <button onclick="toggleLang('pt')" class="flex items-center gap-2 px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition">
+      🌐 <span>Português</span>
+    </button>
+    <button onclick="toggleLang('en')" class="flex items-center gap-2 px-4 py-2 border border-white text-white rounded hover:bg-white hover:text-black transition">
+      🌍 <span>English</span>
+    </button>
+  </div>
+</header>
+
+  <!-- Seção Sobre -->
+  <section id="about" class="px-6 py-12 max-w-4xl mx-auto">
+    <div id="about-pt">
+      <h2 class="text-blue-400 text-2xl font-semibold mb-4">Sobre mim</h2>
+      <p class="text-[#cbd5e1]">
+        Sou um desenvolvedor autodidata com formação em Direito e experiência prática em Engenharia da Computação.
+        Desde 2014, atuo no ecossistema cripto desenvolvendo soluções que unem propósito e tecnologia.
+        Criei o projeto SingulAI, uma plataforma de legado digital baseada em blockchain, IA afetiva e NFTs jurídicos.
+        Também atuo com automações, vídeos criativos, branding e assistentes inteligentes com GPT.
+        Todos os projetos e criativos aqui apresentados foram integralmente desenvolvidos por mim.
+      </p>
+    </div>
+
+    <div id="about-en" class="hidden">
+      <h2 class="text-blue-400 text-2xl font-semibold mb-4">About me</h2>
+      <p class="text-[#cbd5e1]">
+        I'm a self-taught developer with a Law degree and hands-on experience in Computer Engineering.
+        Since 2014, I've been building purpose-driven solutions in the crypto ecosystem.
+        I created SingulAI, a digital legacy platform powered by blockchain, affective AI, and legal NFTs.
+        I also work with automations, creative video content, branding, and smart GPT-based assistants.
+        Every project and creative piece shown here was fully developed by me.
+      </p>
+    </div>
+  </section>
+
+  <!-- Projetos em português -->
+  <section id="pt-projects" class="mt-12 space-y-4 max-w-4xl mx-auto px-6">
+    <h2 class="text-blue-400 text-2xl font-semibold mb-6">Portfólio e Projetos</h2>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Mentor der neuen Zeit</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Site multilíngue com assistente virtual, FAQ e integração internacional.
+        <div class="mt-2"><a href="https://www.mentorderneuenzeit.at/" target="_blank" class="text-cyan-400 underline">Ver Projeto</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Bot Jurídico</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Assistente jurídico com base em fluxos e documentos automatizados.
+        <div class="mt-2"><a href="https://www.youtube.com/embed/HW9EqHiobSo?si=XBhnfBX5C1kFgEqd" target="_blank" class="text-cyan-400 underline">Ver FAQ</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Chatbot Grupo Win</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Atendimento via WhatsApp, integração SGA e IA jurídica/financeira.
+        <ul class="list-disc list-inside mt-2">
+          <li>🔐 Autenticação automatizada</li>
+          <li>📊 Consulta de dados e boletos</li>
+          <li>💬 GPT treinado para atendimento</li>
+        </ul>
+        <div class="mt-2"><a href="https://www.youtube.com/watch?v=qgFuxq6TS68" target="_blank" class="text-cyan-400 underline">Ver Projeto</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">SingulAI</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Plataforma de legado digital com IA generativa e NFTs jurídicos.
+        <div class="mt-2"><a href="https://singulai.site/" target="_blank" class="text-cyan-400 underline">Ver Projeto</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Certificação</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Smart Contracts - University at Buffalo (Coursera).
+        <div class="mt-2"><a href="https://coursera.org/verify/23BWBKN652JZ" target="_blank" class="text-cyan-400 underline">Ver Certificado</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projetos em inglês -->
+  <section id="en-projects" class="mt-12 space-y-4 max-w-4xl mx-auto px-6 hidden">
+    <h2 class="text-blue-400 text-2xl font-semibold mb-6">Portfolio & Projects</h2>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Mentor der neuen Zeit</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Multilingual website with virtual assistant, FAQ and international integration.
+        <div class="mt-2"><a href="https://www.mentorderneuenzeit.at/" target="_blank" class="text-cyan-400 underline">View Project</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Legal Bot</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Automated legal assistant based on flows and smart documents.
+        <div class="mt-2"><a href="https://www.youtube.com/embed/HW9EqHiobSo?si=XBhnfBX5C1kFgEqd" target="_blank" class="text-cyan-400 underline">View FAQ</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Grupo Win Chatbot</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        WhatsApp assistant with SGA integration and financial/legal AI.
+        <ul class="list-disc list-inside mt-2">
+          <li>🔐 Automated authentication</li>
+          <li>📊 Data and invoice lookup</li>
+          <li>💬 Fine-tuned GPT for support</li>
+        </ul>
+        <div class="mt-2"><a href="https://www.youtube.com/watch?v=qgFuxq6TS68" target="_blank" class="text-cyan-400 underline">View Project</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">SingulAI</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Digital legacy platform powered by generative AI and legal NFTs.
+        <div class="mt-2"><a href="https://singulai.site/" target="_blank" class="text-cyan-400 underline">View Project</a></div>
+      </div>
+    </div>
+
+    <div class="accordion glass p-5 rounded-lg shadow hover:shadow-xl transition">
+      <button onclick="toggleAccordion(this)" class="w-full text-left text-xl font-semibold text-blue-300">Certification</button>
+      <div class="accordion-content mt-3 text-gray-300 fade-in">
+        Smart Contracts by University at Buffalo (Coursera).
+        <div class="mt-2"><a href="https://coursera.org/verify/23BWBKN652JZ" target="_blank" class="text-cyan-400 underline">View Certificate</a></div>
+      </div>
+    </div>
+  </section>
+  
+    <!-- Sidebar de Redes Sociais -->
+<div id="sidebar" class="fixed top-0 right-0 h-full w-80 max-w-[90%] bg-[#1e293b] text-white transform translate-x-full sidebar-transition z-50 shadow-2xl rounded-l-xl overflow-y-auto">
+  <div class="flex justify-between items-center px-5 py-4 border-b border-gray-700">
+    <h2 class="text-xl font-semibold">Minhas Redes</h2>
+    <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+  </div>
+
+  <div class="px-6 py-6 space-y-5">
+      <!-- LinkedIn -->
+      <a href="https://linkedin.com/in/rodrigoalves2112" target="_blank" class="flex items-center gap-3 hover:text-blue-400 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" class="w-6 h-6" alt="LinkedIn">
+        <span>LinkedIn</span>
+      </a>
+    
+      <!-- GitHub -->
+      <a href="https://github.com/frodrigoalves" target="_blank" class="flex items-center gap-3 hover:text-gray-300 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" class="w-6 h-6" alt="GitHub">
+        <span>GitHub</span>
+      </a>
+    
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/f.rodrigoalvez?igsh=dTRkaGE5eGdmMnJ1&utm_source=qr" target="_blank" class="flex items-center gap-3 hover:text-pink-400 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" class="w-6 h-6" alt="Instagram">
+        <span>Instagram</span>
+      </a>
+    
+      <!-- Telegram -->
+      <a href="https://t.me/RodrigoAlvesF" target="_blank" class="flex items-center gap-3 hover:text-blue-300 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" class="w-6 h-6" alt="Telegram">
+        <span>Telegram</span>
+      </a>
+    
+      <!-- WhatsApp -->
+      <a href="https://wa.me/5548999880536" target="_blank" class="flex items-center gap-3 hover:text-green-400 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-6 h-6" alt="WhatsApp">
+        <span>WhatsApp</span>
+      </a>
+    
+      <!-- Discord -->
+      <a href="https://discord.gg/mt7rcyUh" target="_blank" class="flex items-center gap-3 hover:text-indigo-400 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="w-6 h-6" alt="Discord">
+        <span>Discord</span>
+      </a>
+    
+      <!-- X (Twitter) -->
+      <a href="https://twitter.com/RodrigoAFerr" target="_blank" class="flex items-center gap-3 hover:text-sky-400 transition">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968958.png" class="w-6 h-6" alt="Twitter/X">
+        <span>X / Twitter</span>
+      </a>
+    </div>
+    
+    <!-- Vídeo embutido -->
+    <div class="mt-6 px-6 pb-6">
+        <h3 class="text-whithe-400 font-semibold mb-2">Criativos</h3>
+        <div class="w-full">
+        <iframe class="w-full h-52 rounded-lg"
+          src="https://www.youtube.com/embed/qgFuxq6TS68"
+          title="YouTube video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer de Projeto -->
+<div id="formDrawer" class="fixed top-0 left-0 h-full w-96 max-w-[95%] bg-[#1e293b] text-white transform -translate-x-full sidebar-transition z-50 shadow-2xl rounded-r-xl overflow-y-auto">
+  <div class="flex justify-between items-center px-5 py-4 border-b border-gray-700">
+    <h2 class="text-xl font-semibold text-blue-400">Solicitar Projeto</h2>
+    <button onclick="toggleFormDrawer()" class="text-gray-400 hover:text-white text-2xl font-bold">&times;</button>
+  </div>
+
+  <form action="https://formspree.io/f/mayvzjga" method="POST" class="px-6 py-6 space-y-4">
+    <input type="text" name="name" placeholder="Nome" required class="w-full rounded bg-gray-800 border border-gray-600 px-4 py-2" />
+    <input type="email" name="email" placeholder="Email" required class="w-full rounded bg-gray-800 border border-gray-600 px-4 py-2" />
+    <textarea name="message" rows="5" placeholder="Descreva sua ideia" required class="w-full rounded bg-gray-800 border border-gray-600 px-4 py-2"></textarea>
+    <div class="text-center">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded shadow">Enviar</button>
+    </div>
+
+    <!-- Vídeo abaixo do formulário -->
+<div class="mt-6 px-6 pb-6">
+    <h3 class="text-blue-400 font-semibold mb-2">Apresentação e trabalhos internacionais</h3>
+    <div class="w-full">
+      <iframe
+        class="w-full h-52 rounded-lg"
+        src="https://www.youtube.com/embed/HW9EqHiobSo?si=XBhnfBX5C1kFgEqd"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+  <iframe
+        class="w-full h-52 rounded-lg"
+        src="https://www.youtube.com/embed/YOTgISedhN0?si=8VLeSdTg7kmopGHa"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+  </div>
+  </form>
+</div>
+
+      
+  <!-- Carrossel de Logos Animado -->
+<section class="bg-[#0f172a] py-12 px-15 overflow-hidden relative">
+  <h2 class="text-center text-2xl text-blue-400 font-semibold mb-10">Clientes e Projetos Atendidos</h2>
+  
+  <div class="logo-strip whitespace-nowrap animate-slide inline-block">
+    <img src="img/logo1.png" alt="Logo 1" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo2.png" alt="Logo 2" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo3.png" alt="Logo 3" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo4.png" alt="Logo 4" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo5.png" alt="Logo 5" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo6.png" alt="Logo 6" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo7.png" alt="Logo 7" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo8.png" alt="Logo 8" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo9.png" alt="Logo 9" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+
+
+    <!-- Duplicado para loop -->
+    <img src="img/logo1.png" alt="Logo 1" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo2.png" alt="Logo 2" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo3.png" alt="Logo 3" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo4.png" alt="Logo 4" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo5.png" alt="Logo 5" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo6.png" alt="Logo 6" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo7.png" alt="Logo 7" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo8.png" alt="Logo 8" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+    <img src="img/logo9.png" alt="Logo 9" class="w-40 h-24 object-contain grayscale opacity-80 hover:opacity-100 transition duration-300" />
+
+  </div>
+
+  <style>
+    @keyframes scrollX {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-slide {
+      display: flex;
+      width: max-content;
+      animation: scrollX 30s linear infinite;
+    }
+
+    .logo-strip img {
+      flex-shrink: 0;
+    }
+  </style>
+</section>
+
+<!-- Scripts -->
+<script>
+  let typedInstance;
+
+  function closeAllOverlays() {
+    const sidebar = document.getElementById('sidebar');
+    const formDrawer = document.getElementById('formDrawer');
+    const drawerContato = document.getElementById('drawerContato');
+    const overlay = document.getElementById('overlay');
+    const formBtn = document.getElementById('form-btn');
+
+    if (sidebar && sidebar.classList.contains('translate-x-0')) {
+      sidebar.classList.remove('translate-x-0');
+      sidebar.classList.add('translate-x-full');
+    }
+
+    if (formDrawer && formDrawer.classList.contains('translate-x-0')) {
+      formDrawer.classList.remove('translate-x-0');
+      formDrawer.classList.add('-translate-x-full');
+      formBtn?.classList.remove('hidden');
+    }
+
+    if (drawerContato && drawerContato.classList.contains('translate-x-0')) {
+      drawerContato.classList.add('translate-x-full');
+    }
+
+    overlay?.classList.add('hidden');
+  }
+
+  function toggleAccordion(btn) {
+    const acc = btn.parentElement;
+    acc.classList.toggle('open');
+  }
+
+  function toggleLang(lang) {
+    const isPT = lang === 'pt';
+
+    document.getElementById("about-pt")?.classList.toggle("hidden", !isPT);
+    document.getElementById("about-en")?.classList.toggle("hidden", isPT);
+    document.getElementById("pt-projects")?.classList.toggle("hidden", !isPT);
+    document.getElementById("en-projects")?.classList.toggle("hidden", isPT);
+
+    const socialBtn = document.getElementById("social-btn");
+    if (socialBtn) {
+      socialBtn.textContent = isPT ? "Redes Sociais" : "Social Media";
+    }
+
+    updateTypedText(lang);
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const isOpen = sidebar.classList.contains('translate-x-0');
+
+    sidebar.classList.toggle('translate-x-full', isOpen);
+    sidebar.classList.toggle('translate-x-0', !isOpen);
+
+    overlay?.classList.toggle('hidden', isOpen);
+  }
+
+  function toggleFormDrawer() {
+    const drawer = document.getElementById('formDrawer');
+    const overlay = document.getElementById('overlay');
+    const formBtn = document.getElementById('form-btn');
+
+    const isOpen = drawer.classList.contains('translate-x-0');
+
+    drawer.classList.toggle('-translate-x-full', isOpen);
+    drawer.classList.toggle('translate-x-0', !isOpen);
+
+    if (overlay) {
+      overlay.classList.toggle('hidden', isOpen);
+    }
+
+
+    if (formBtn) {
+      formBtn.classList.toggle('hidden', !isOpen);
+    }
+  }
+
+  function abrirDrawerContato() {
+    const drawer = document.getElementById('drawerContato');
+    const overlay = document.getElementById('overlay');
+
+    drawer?.classList.remove('translate-x-full');
+    overlay?.classList.remove('hidden');
+  }
+
+  function fecharDrawerContato() {
+    const drawer = document.getElementById('drawerContato');
+    const overlay = document.getElementById('overlay');
+
+    drawer?.classList.add('translate-x-full');
+    overlay?.classList.add('hidden');
+  }
+
+  function updateTypedText(lang) {
+    const typedEl = document.getElementById("typed");
+    if (!typedEl) return;
+
+    if (typedInstance) {
+      typedInstance.destroy();
+    }
+
+    const strings = lang === "pt"
+      ? ["Desenvolvedor Web3", "Criador do SingulAI", "IA + Blockchain", "Assistentes com GPT"]
+      : ["Web3 Developer", "Creator of SingulAI", "AI + Blockchain", "GPT-based Assistants"];
+
+    typedInstance = new Typed("#typed", {
+      strings,
+      typeSpeed: 50,
+      backSpeed: 30,
+      loop: true,
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateTypedText('pt');
+  });
+</script>
+
+<!-- Typed.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- Estilo personalizado -->
+  <style>
+    .accordion-content { display: none; }
+    .accordion.open .accordion-content { display: block; }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sidebar-transition {
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    .lang-button:hover {
+      transform: scale(1.05);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .logo-grid img {
+      filter: grayscale(100%) brightness(1.1);
+      max-height: 80px;
+      max-width: 160px;
+      object-fit: contain;
+      opacity: 0.85;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .logo-grid img:hover {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  </style>
+</head>
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true, // anima apenas uma vez
+    duration: 700,
+    easing: 'ease-in-out',
+  });
+</script>
+<body class="bg-[#0f172a] text-[#cbd5e1] font-sans tracking-wide relative">
+
+  <!-- Botão lateral direito -->
+  <button id="social-btn"
+    onclick="toggleSidebar()"
+    class="fixed top-1/2 right-0 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-3 rounded-l-xl shadow-lg hover:bg-blue-500 transition z-40 flex flex-col items-center gap-1 text-sm"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM2 20h20" />
+    </svg>
+    <span>Social</span>
+  </button>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-sm text-gray-400 bg-black mt-16">
+    RodrigoSingular.dev © 2025
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    AOS.init({ once: true, duration: 700, easing: 'ease-in-out' });
+
+    let typedInstance;
+    function updateTypedText(lang) {
+      if (typedInstance) typedInstance.destroy();
+      const strings = lang === "pt"
+        ? ["Desenvolvedor Web3", "Criador do SingulAI", "IA + Blockchain", "Assistentes com GPT"]
+        : ["Web3 Developer", "Creator of SingulAI", "AI + Blockchain", "GPT-based Assistants"];
+      typedInstance = new Typed("#typed", { strings, typeSpeed: 50, backSpeed: 30, loop: true });
+    }
+
+    function toggleLang(lang) {
+      const isPT = lang === 'pt';
+      document.getElementById("about-pt").classList.toggle("hidden", !isPT);
+      document.getElementById("about-en").classList.toggle("hidden", isPT);
+      updateTypedText(lang);
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const isOpen = sidebar.classList.contains('translate-x-0');
+      sidebar.classList.toggle('translate-x-full', isOpen);
+      sidebar.classList.toggle('translate-x-0', !isOpen);
+      overlay.classList.toggle('hidden', isOpen);
+    }
+
+    function toggleFormDrawer() {
+      const drawer = document.getElementById('formDrawer');
+      const overlay = document.getElementById('overlay');
+      const isOpen = drawer.classList.contains('translate-x-0');
+      drawer.classList.toggle('-translate-x-full', isOpen);
+      drawer.classList.toggle('translate-x-0', !isOpen);
+      overlay.classList.toggle('hidden', isOpen);
+    }
+
+    function closeAllOverlays() {
+      document.getElementById('formDrawer')?.classList.add('-translate-x-full');
+      document.getElementById('sidebar')?.classList.add('translate-x-full');
+      document.getElementById('overlay')?.classList.add('hidden');
+      
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateTypedText('pt');
+    });
+  </script>
+</body>
+</html>
